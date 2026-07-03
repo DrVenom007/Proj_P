@@ -606,52 +606,57 @@ async function typeBlueLine(element, text) {
 }
 
 /* =========================
-   GOOGLE APPS SCRIPT
+   SEND TO FORMSPREE
 ========================= */
 
 async function sendSession() {
 
-
-    console.log(session);
-
-    const duration = Math.round((Date.now() - session.startedAt) / 1000);
+    const duration = Math.round(
+        (Date.now() - session.startedAt) / 1000
+    );
 
     const data = {
 
-    sessionId: crypto.randomUUID(),
+        sessionId: crypto.randomUUID(),
 
-    identity: session.identity,
-    preference: session.preference,
-    luck: session.luck,
-    music: session.music,
+        identity: session.identity,
+        preference: session.preference,
+        luck: session.luck,
+        music: session.music,
 
-    duration,
+        duration: duration,
 
-    startedAt: new Date(session.startedAt).toISOString(),
+        startedAt: new Date(session.startedAt).toISOString(),
 
-    device: navigator.platform,
-    browser: navigator.userAgent
+        device: navigator.platform,
+        browser: navigator.userAgent
 
-};
+    };
+
+    console.log("Sending:", data);
 
     try {
 
-        const response = await fetch("https://formspree.io/f/xeebvgwj",{
+        const response = await fetch("https://formspree.io/f/xeebvgwj", {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-                "Accept":"application/json",
-                "Content-Type":"application/json"
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
 
-            body:JSON.stringify(data)
+            body: JSON.stringify(data)
 
         });
 
-        console.log(await response.text());
+        console.log("Status:", response.status);
 
-    }catch(err){
+        const result = await response.text();
+
+        console.log(result);
+
+    } catch (err) {
 
         console.error(err);
 
