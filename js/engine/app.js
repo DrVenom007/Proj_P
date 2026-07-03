@@ -576,7 +576,7 @@ async function showEndScreen() {
 
     await typeBlueLine(endText, "Thanks, Princess.");
 
-    sendSession();
+    await sendSession();
 
 }
 
@@ -606,30 +606,49 @@ async function typeBlueLine(element, text) {
 }
 
 /* =========================
-   GOOGLE FORM
+   GOOGLE APPS SCRIPT
 ========================= */
 
-function sendSession() {
+async function sendSession() {
 
     const duration = Math.round((Date.now() - session.startedAt) / 1000);
 
-    const formURL =
-        "https://docs.google.com/forms/d/e/1FAIpQLSflXBuiAMdzWnUhvlmx56Gg18kRQAcJDmmdd6eEwQWAgKe3Vg/formResponse";
+    const payload = {
 
-    const data = new URLSearchParams();
+        identity: session.identity,
+        preference: session.preference,
+        luck: session.luck,
+        music: session.music,
 
-    data.append("entry.1669327626", session.identity);
-    data.append("entry.1314943867", session.preference);
-    data.append("entry.583262424", session.luck);
-    data.append("entry.691556138", session.music);
-    data.append("entry.834808938", duration);
-    data.append("entry.1783512558", new Date(session.startedAt).toISOString());
+        duration: duration,
+        startedAt: new Date(session.startedAt).toISOString(),
 
-    fetch(formURL, {
-        method: "POST",
-        mode: "no-cors",
-        body: data
-    });
+        device: navigator.platform,
+        browser: navigator.userAgent
+
+    };
+
+    try {
+
+        await fetch("https://script.google.com/macros/s/AKfycby2JL3QJzjjlwuCAP3S4EqQWKB41WKs1rEmQvOC3xrsjD_8xmcsGxl75is4YFiVHH8S/exec", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(payload)
+
+        });
+
+        console.log("Session saved.");
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
 
 }
 
