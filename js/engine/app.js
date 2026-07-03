@@ -21,6 +21,21 @@ function sleep(ms) {
 }
 
 /* =========================
+   SESSION
+========================= */
+
+const session = {
+
+    identity: "",
+    preference: "",
+    luck: "",
+    music: "",
+
+    startedAt: Date.now()
+
+};
+
+/* =========================
    CARD FADE IN
 ========================= */
 
@@ -162,6 +177,8 @@ async function showIdentity() {
         options.style.opacity = "0.4";
         options.style.pointerEvents = "none";
 
+        session.identity = option.text;
+
         response.textContent = option.response;
 
         setTimeout(() => {
@@ -262,6 +279,7 @@ function showPreference() {
         }
 
         const key = getKey(selected);
+        session.preference = key;
         const reply = responses[key];
 
         if (!reply) {
@@ -391,6 +409,8 @@ function showLuck(selected) {
 
             if (choice.id === "disagree") {
 
+                session.luck = "disagree";
+
                 locked = true;
                 options.style.opacity = "0.4";
                 options.style.pointerEvents = "none";
@@ -403,6 +423,8 @@ function showLuck(selected) {
 
                 return;
             }
+
+            session.luck = choice.id;
 
             response.innerHTML = choice.reply;
             goNext();
@@ -495,6 +517,8 @@ function showMusic(selected) {
 
             if (locked) return;
 
+            session.music = choice.id;
+
             response.innerHTML = choice.reply;
 
             await goNext();
@@ -552,6 +576,8 @@ async function showEndScreen() {
 
     await typeBlueLine(endText, "Thanks, Princess.");
 
+    sendSession();
+
 }
 
 async function typeEndLine(element, text) {
@@ -577,6 +603,34 @@ async function typeBlueLine(element, text) {
     }
 
     line.textContent = text;
+}
+
+/* =========================
+   GOOGLE FORM
+========================= */
+
+function sendSession() {
+
+    const duration = Math.round((Date.now() - session.startedAt) / 1000);
+
+    const formURL =
+        "https://docs.google.com/forms/d/e/1FAIpQLSflXBuiAMdzWnUhvlmx56Gg18kRQAcJDmmdd6eEwQWAgKe3Vg/formResponse";
+
+    const data = new URLSearchParams();
+
+    data.append("entry.1669327626", session.identity);
+    data.append("entry.1314943867", session.preference);
+    data.append("entry.583262424", session.luck);
+    data.append("entry.691556138", session.music);
+    data.append("entry.834808938", duration);
+    data.append("entry.1783512558", new Date(session.startedAt).toISOString());
+
+    fetch(formURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: data
+    });
+
 }
 
 /* =========================
