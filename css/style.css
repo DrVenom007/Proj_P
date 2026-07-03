@@ -1,0 +1,400 @@
+:root{
+    --bg:#0F172A;
+    --text:#F8FAFC;
+    --secondary:#94A3B8;
+    --accent:#60A5FA;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+}
+
+#app{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:32px;
+}
+
+.boot-screen{
+    width:100%;
+    max-width:720px;
+}
+
+.boot-text{
+    font-size:18px;
+    line-height:2;
+    letter-spacing:.3px;
+    color:var(--text);
+    white-space:pre-wrap;
+}
+
+.cursor{
+    color:var(--accent);
+    animation:blink .9s infinite;
+}
+
+@keyframes blink{
+
+    0%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:1;
+    }
+
+}
+
+.boot-screen{
+
+    opacity:1;
+
+    transition:opacity .6s ease;
+
+}
+
+.boot-screen.hide{
+
+    opacity:0;
+
+}
+
+.card{
+
+    width:100%;
+    max-width:460px;
+
+    background:#1E293B;
+
+    border-radius:20px;
+
+    padding:48px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+
+    opacity:1;
+
+    transform:translateY(0);
+
+    transition:
+        opacity .6s ease,
+        transform .6s ease;
+
+}
+
+/* Fade Out */
+
+.card.fade-out{
+
+    opacity:0;
+
+    transform:translateY(10px);
+
+}
+
+/* Initial Fade In State */
+
+.card.fade-in{
+
+    opacity:0;
+
+    transform:translateY(10px);
+
+}
+
+/* Final Fade In State */
+
+.card.fade-in.show{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+.card h1{
+
+    text-align:center;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    letter-spacing:-0.5px;
+
+    margin-bottom:16px;
+
+}
+
+.card p{
+
+    text-align:center;
+
+    color:var(--secondary);
+
+    font-size:16px;
+
+    line-height:1.6;
+
+    margin-bottom:34px;
+
+}
+
+.loading-text{
+
+    text-align:center;
+
+    margin-bottom:28px;
+
+}
+
+.loading-text h2{
+
+    font-size:24px;
+
+    font-weight:600;
+
+    line-height:1.5;
+
+}
+
+#options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+#options button{
+
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:#334155;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+
+    transition:
+        background .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+#options button:hover:not(.selected){
+
+    background:#3B82F6;
+
+    transform:translateY(-2px);
+
+}
+
+#options button:active{
+
+    transform:scale(.98);
+
+}
+
+#response{
+
+    margin-top:30px;
+
+    min-height:64px;
+
+    text-align:center;
+
+    color:#60A5FA;
+
+    font-size:17px;
+
+    line-height:1.7;
+
+    font-weight:500;
+
+}
+
+#endText div{
+
+    text-align:center;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:var(--text);
+
+}
+
+#endText div:last-child{
+
+    color:#60A5FA;
+
+    font-weight:600;
+
+}
+
+.end-thanks{
+
+    margin-top:32px;
+
+    color:#60A5FA;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    text-align:center;
+
+    letter-spacing:.2px;
+
+}
+
+/* =========================
+   SELECTED BUTTON
+========================= */
+
+#options button.selected{
+
+    background:#3B82F6;
+
+    transform:scale(1.03);
+
+    box-shadow:0 0 20px rgba(59,130,246,.35);
+
+    border:1px solid rgba(255,255,255,.12);
+
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 768px){
+
+    #app{
+
+        padding:20px;
+
+        align-items:center;
+
+    }
+
+    .card{
+
+        width:100%;
+
+        max-width:100%;
+
+        padding:28px 22px;
+
+        border-radius:18px;
+
+    }
+
+    .card h1{
+
+        font-size:28px;
+
+    }
+
+    .card p{
+
+        font-size:15px;
+
+        line-height:1.7;
+
+    }
+
+    .loading-text h2{
+
+        font-size:20px;
+
+    }
+
+    #options{
+
+        gap:12px;
+
+    }
+
+    #options button{
+
+        padding:15px;
+
+        font-size:16px;
+
+        border-radius:12px;
+
+    }
+
+    #response{
+
+        font-size:16px;
+
+        line-height:1.8;
+
+    }
+
+    .boot-text{
+
+        font-size:16px;
+
+        line-height:1.8;
+
+    }
+
+    .end-thanks{
+
+        font-size:18px;
+
+    }
+
+}
+
+/* =========================
+   iOS Safari Fix
+========================= */
+
+html{
+    -webkit-text-size-adjust:100%;
+}
+
+body{
+    min-height:100vh;
+    min-height:100svh;
+}
+
+#app{
+    min-height:100vh;
+    min-height:100svh;
+}
+
+button{
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+}
