@@ -611,6 +611,8 @@ async function typeBlueLine(element, text) {
 
 async function sendSession() {
 
+    console.log("sendSession started");
+
     const duration = Math.round((Date.now() - session.startedAt) / 1000);
 
     const payload = {
@@ -630,6 +632,9 @@ async function sendSession() {
 
     try {
 
+        console.log(payload);
+        console.log("Sending...");
+
         await fetch("https://script.google.com/macros/s/AKfycby2JL3QJzjjlwuCAP3S4EqQWKB41WKs1rEmQvOC3xrsjD_8xmcsGxl75is4YFiVHH8S/exec", {
 
             method: "POST",
@@ -641,6 +646,8 @@ async function sendSession() {
             body: JSON.stringify(payload)
 
         });
+
+        console.log("Finished");
 
         console.log("Session saved.");
 
