@@ -624,6 +624,11 @@ async function sendSession() {
 
     };
 
+    console.log(session);
+
+    console.log(Date.now());
+    console.log(session.startedAt);
+
     const duration = Math.round((Date.now() - session.startedAt) / 1000);
 
     const data = {
@@ -638,6 +643,9 @@ async function sendSession() {
         startedAt: new Date(session.startedAt).toISOString(),
         device: navigator.platform,
         browser: navigator.userAgent
+
+        debugNow: Date.now(),
+        debugStarted: session.startedAt,
 
     };
 
