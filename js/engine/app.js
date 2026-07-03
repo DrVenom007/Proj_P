@@ -611,9 +611,24 @@ async function typeBlueLine(element, text) {
 
 async function sendSession() {
 
+    const session = {
+
+    startedAt: Date.now(),
+
+    sessionId: crypto.randomUUID(),
+
+    identity: "",
+    preference: "",
+    luck: "",
+    music: ""
+
+    };
+
     const duration = Math.round((Date.now() - session.startedAt) / 1000);
 
     const data = {
+
+        sessionId: session.sessionId,
 
         identity: session.identity,
         preference: session.preference,
