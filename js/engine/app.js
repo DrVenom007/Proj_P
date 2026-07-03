@@ -611,20 +611,16 @@ async function typeBlueLine(element, text) {
 
 async function sendSession() {
 
-    console.log("sendSession started");
-
     const duration = Math.round((Date.now() - session.startedAt) / 1000);
 
-    const payload = {
+    const data = {
 
         identity: session.identity,
         preference: session.preference,
         luck: session.luck,
         music: session.music,
-
         duration: duration,
         startedAt: new Date(session.startedAt).toISOString(),
-
         device: navigator.platform,
         browser: navigator.userAgent
 
@@ -632,26 +628,22 @@ async function sendSession() {
 
     try {
 
-        console.log(payload);
-        console.log("Sending...");
+        const response = await fetch("https://formspree.io/f/xeebvgwj",{
 
-        await fetch("https://script.google.com/macros/s/AKfycby2JL3QJzjjlwuCAP3S4EqQWKB41WKs1rEmQvOC3xrsjD_8xmcsGxl75is4YFiVHH8S/exec", {
+            method:"POST",
 
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
+            headers:{
+                "Accept":"application/json",
+                "Content-Type":"application/json"
             },
 
-            body: JSON.stringify(payload)
+            body:JSON.stringify(data)
 
         });
 
-        console.log("Finished");
+        console.log(await response.text());
 
-        console.log("Session saved.");
-
-    } catch (err) {
+    }catch(err){
 
         console.error(err);
 
